@@ -11,4 +11,4 @@ build-cookie-template:
     - cmake --build build
   artifacts:
     paths:
-      - build/init:
+      - build/init
