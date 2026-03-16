@@ -9,3 +9,6 @@ build-cookie-template:
   script:
     - cmake ./ -DCMAKE_BUILD_TYPE=Release -B build
     - cmake --build build
+  artifacts:
+    paths:
+      - build/init:
