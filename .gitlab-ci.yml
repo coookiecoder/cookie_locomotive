@@ -1,0 +1,11 @@
+image: muslcc/x86_64:armv6-linux-musleabihf
+
+build-cookie-template:
+  stage: build
+  before_script:
+    - apk update
+    - apk upgrade
+    - apk add cmake make g++ gcc git
+  script:
+    - cmake ./ -DCMAKE_BUILD_TYPE=Release -B build
+    - cmake --build build
