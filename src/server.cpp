@@ -2,6 +2,8 @@
 
 #include <iostream>
 
+#include <unistd.h>
+
 std::string callback(std::string str) {
     std::cout << "New message from client : " << str << std::endl;
     return str;
@@ -22,5 +24,9 @@ int main() {
 
     server.start();
 
-    while (run);
+    while (run) {
+        std::cout << "[INFO] | still alive" << std::endl;
+
+	usleep(1000000);
+    }
 }
