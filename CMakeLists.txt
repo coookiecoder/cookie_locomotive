@@ -18,3 +18,4 @@ set(HEADERS_SERVER)
 add_executable(init ${SOURCES_SERVER} ${HEADERS_SERVER})
 
 target_link_libraries(init PRIVATE cookie -static-libstdc++ -static-libgcc)
+target_compile_options(init PRIVATE -Os)
