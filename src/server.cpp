@@ -5,8 +5,15 @@
 
 #include <unistd.h>
 
-std::string callback(std::string str) {
-    std::cout << "New message from client : " << str << std::endl;
+cookie::gpio::Chip chip("/dev/gpiochip0");
+
+std::string up(std::string str) {
+    chip.send_line_value(47, true);
+    return str;
+}
+
+std::string down(std::string str) {
+    chip.send_line_value(47, false);
     return str;
 }
 
@@ -18,22 +25,18 @@ std::string stop(std::string str) {
 }
 
 int main() {
-    cookie::gpio::Chip chip("/dev/gpiochip0");
-    chip.add_line_request(17, "cookie_locomotive", true);
+    chip.add_line_request(47, "cookie_locomotive", true);
 
     cookie::server::udp server(5000);
 
-    server.map_default(callback);
-    server.map_response_word("stop", stop);
+    server.map_response_word("up", up);
+    server.map_response("down", down);
+    server.map_response("stop", stop);
 
     server.start();
 
     while (run) {
         std::cout << "[INFO] | still alive" << std::endl;
-
-        chip.send_line_value(17, true);
-	    usleep(500000);
-        chip.send_line_value(17, false);
-        usleep(500000);
+	    usleep(1000000);
     }
 }
