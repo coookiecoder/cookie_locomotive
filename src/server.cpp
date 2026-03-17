@@ -1,4 +1,5 @@
 #include <server/udp.hpp>
+#include <gpio/chip.hpp>
 
 #include <iostream>
 
@@ -17,6 +18,9 @@ std::string stop(std::string str) {
 }
 
 int main() {
+    cookie::gpio::Chip chip("/dev/gpiochip0");
+    chip.add_line_request(17, "cookie_locomotive", true);
+
     cookie::server::udp server(5000);
 
     server.map_default(callback);
@@ -27,6 +31,9 @@ int main() {
     while (run) {
         std::cout << "[INFO] | still alive" << std::endl;
 
-	usleep(1000000);
+        chip.send_line_value(17, true);
+	    usleep(500000);
+        chip.send_line_value(17, false);
+        usleep(500000);
     }
 }
