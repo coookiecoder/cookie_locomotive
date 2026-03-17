@@ -29,7 +29,7 @@ int main() {
 
     cookie::server::udp server(5000);
 
-    server.map_response_word("up", up);
+    server.map_response("up", up);
     server.map_response("down", down);
     server.map_response("stop", stop);
 
