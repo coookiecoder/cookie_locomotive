@@ -35,6 +35,8 @@ int main() {
 
     client.start();
 
+    client.send("INIT");
+
     while (run) {
         std::cout << "[INFO] | still alive" << std::endl;
 	    usleep(1000000);
