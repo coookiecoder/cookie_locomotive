@@ -12,3 +12,4 @@ build-cookie-template:
   artifacts:
     paths:
       - build/cookie_locomotive
+      - build/cookie_central
