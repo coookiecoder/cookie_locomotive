@@ -35,14 +35,20 @@ int main() {
 
     server.start();
 
+    std::unique_lock lock(mutex);
+    lock.unlock();
+
     while (run) {
-        std::unique_lock lock(mutex);
-
+        lock.lock();
         server.broadcast("up");
-        std::this_thread::sleep_for(std::chrono::milliseconds(10));
-        server.broadcast("down");
+        lock.unlock();
+
         std::this_thread::sleep_for(std::chrono::milliseconds(10));
 
+        lock.lock();
+        server.broadcast("down");
         lock.unlock();
+
+        std::this_thread::sleep_for(std::chrono::milliseconds(10));
     }
 }

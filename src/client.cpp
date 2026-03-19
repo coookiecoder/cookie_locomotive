@@ -7,21 +7,14 @@
 
 cookie::gpio::Chip chip("/dev/gpiochip0");
 
-std::string up(std::string str) {
+std::string up(const std::string&) {
     chip.send_line_value(47, true);
-    return str;
+    return "";
 }
 
-std::string down(std::string str) {
+std::string down(const std::string&) {
     chip.send_line_value(47, false);
-    return str;
-}
-
-std::atomic_bool run = true;
-
-std::string stop(std::string str) {
-    run = false;
-    return str;
+    return "";
 }
 
 int main() {
@@ -31,13 +24,12 @@ int main() {
 
     client.map_response("up", up);
     client.map_response("down", down);
-    client.map_response("stop", stop);
 
     client.start();
 
     client.send("INIT");
 
-    while (run) {
+    while (true) {
         std::cout << "[INFO] | still alive" << std::endl;
 	    usleep(1000000);
     }
