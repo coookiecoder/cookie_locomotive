@@ -12,10 +12,13 @@ message(STATUS "Fetching Dependencies...")
 FetchContent_Declare(cookie GIT_REPOSITORY https://gitlab.cookie-coder.com/cookiecoder/cookie.git)
 FetchContent_MakeAvailable(cookie)
 
-set(SOURCES_SERVER src/server.cpp)
-set(HEADERS_SERVER)
+set(SOURCES_CLIENT src/client.cpp)
+set(HEADERS_CLIENT)
 
-add_executable(init ${SOURCES_SERVER} ${HEADERS_SERVER})
+add_executable(cookie_locomotive ${SOURCES_CLIENT} ${HEADERS_CLIENT})
 
-target_link_libraries(init PRIVATE cookie -static-libstdc++ -static-libgcc)
-target_compile_options(init PRIVATE -Os)
+target_link_libraries(cookie_locomotive PRIVATE cookie -static-libstdc++ -static-libgcc)
+target_compile_options(cookie_locomotive PRIVATE -Os)
+
+set(DOCKER_IMAGE_NAME "cookie_locomotive")
+add_custom_target(docker-build COMMAND docker build -t ${DOCKER_IMAGE_NAME} ${CMAKE_SOURCE_DIR} WORKING_DIRECTORY ${CMAKE_SOURCE_DIR} COMMENT "Building inside docker using alpine ARMHF target")
