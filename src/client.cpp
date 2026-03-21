@@ -18,19 +18,6 @@ std::string down(const std::string&) {
 }
 
 int main() {
-    chip.add_line_request(47, "cookie_locomotive", true);
-
-    cookie::client::udp client("192.168.1.100", 5000);
-
-    client.map_response("up", up);
-    client.map_response("down", down);
-
-    client.start();
-
-    client.send("INIT");
-
-    while (true) {
-        std::cout << "[INFO] | still alive" << std::endl;
-	    usleep(1000000);
-    }
+    chip.add_line_request(23, "cookie_locomotive", true);
+    chip.send_line_value(23, true);
 }
